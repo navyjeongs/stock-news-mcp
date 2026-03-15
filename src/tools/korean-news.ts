@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { fetchNews } from "../utils/rss.js";
+import { applySentiment } from "../utils/sentiment.js";
 
 export const koreanNewsSchema = z.object({
   query: z
@@ -10,12 +11,16 @@ export const koreanNewsSchema = z.object({
     .number()
     .optional()
     .describe("반환할 뉴스 수 (기본값: 5, 최대: 20)"),
+  sentiment: z
+    .enum(["positive", "negative"])
+    .optional()
+    .describe("호재(positive) 또는 악재(negative) 뉴스만 필터링"),
 });
 
 export async function getKoreanStockNews(
   args: z.infer<typeof koreanNewsSchema>
 ) {
-  const query = args.query ?? "한국 주식 시장";
+  const query = applySentiment(args.query ?? "한국 주식 시장", args.sentiment, "ko");
   const count = args.count ?? 5;
 
   try {

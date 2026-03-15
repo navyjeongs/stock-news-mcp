@@ -1,6 +1,7 @@
 import { z } from "zod";
 import yahooFinance from "yahoo-finance2";
 import { fetchNews } from "../utils/rss.js";
+import { applySentiment } from "../utils/sentiment.js";
 
 export const stockNewsSchema = z.object({
   symbol: z.string().describe("티커 심볼 (예: AAPL, 005930.KS)"),
@@ -8,6 +9,10 @@ export const stockNewsSchema = z.object({
     .number()
     .optional()
     .describe("반환할 뉴스 수 (기본값: 5, 최대: 20)"),
+  sentiment: z
+    .enum(["positive", "negative"])
+    .optional()
+    .describe("호재(positive) 또는 악재(negative) 뉴스만 필터링"),
 });
 
 export async function getStockNews(args: z.infer<typeof stockNewsSchema>) {
@@ -18,19 +23,20 @@ export async function getStockNews(args: z.infer<typeof stockNewsSchema>) {
     const q = quote as Record<string, unknown>;
     const name = (q.shortName as string) ?? (q.longName as string) ?? args.symbol;
 
-    // 한국 종목이면 한국어 뉴스, 아니면 영어 뉴스
     const isKorean = args.symbol.endsWith(".KS") || args.symbol.endsWith(".KQ");
+    const lang = isKorean ? "ko" : "en";
     const locale = isKorean
       ? { hl: "ko", gl: "KR", ceid: "KR:ko" }
       : { hl: "en", gl: "US", ceid: "US:en" };
 
-    const news = await fetchNews(name, locale, count);
+    const query = applySentiment(name, args.sentiment, lang);
+    const news = await fetchNews(query, locale, count);
 
     return {
       content: [
         {
           type: "text" as const,
-          text: JSON.stringify({ symbol: args.symbol, name, news }, null, 2),
+          text: JSON.stringify({ symbol: args.symbol, name, sentiment: args.sentiment ?? "all", news }, null, 2),
         },
       ],
     };

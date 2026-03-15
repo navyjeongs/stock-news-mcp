@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { fetchNews } from "../utils/rss.js";
+import { applySentiment } from "../utils/sentiment.js";
 
 export const usNewsSchema = z.object({
   query: z
@@ -10,10 +11,14 @@ export const usNewsSchema = z.object({
     .number()
     .optional()
     .describe("Number of news items to return (default: 5, max: 20)"),
+  sentiment: z
+    .enum(["positive", "negative"])
+    .optional()
+    .describe("Filter for bullish (positive) or bearish (negative) news"),
 });
 
 export async function getUsStockNews(args: z.infer<typeof usNewsSchema>) {
-  const query = args.query ?? "US stock market";
+  const query = applySentiment(args.query ?? "US stock market", args.sentiment, "en");
   const count = args.count ?? 5;
 
   try {
