@@ -11,6 +11,10 @@ import {
   stockAnalysisSchema,
   getStockAnalysis,
 } from "./tools/stock-analysis.js";
+import {
+  stockSearchSchema,
+  searchStock,
+} from "./tools/stock-search.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -57,6 +61,13 @@ server.tool(
   "종목의 매수/매도 판단을 위한 종합 분석 도구입니다. 기술적 지표(SMA, RSI, MACD, 볼린저밴드), 펀더멘털(PER, PBR, ROE, 부채비율 등), 애널리스트 의견(목표가, 추천)을 한번에 반환합니다. 사용자가 '살까?', '팔까?', '매수해?', '매도해?', '구매', '판매', '지금 들어가도 될까?', '전망이 어때?', '이 주식 어때?' 등 투자 의견을 물으면 반드시 이 도구를 사용하세요.",
   stockAnalysisSchema.shape,
   getStockAnalysis
+);
+
+server.tool(
+  "search_stock",
+  "종목명으로 티커 심볼을 검색합니다. 한국어 종목명(삼성전자, SK하이닉스, 네이버 등)이나 영어 종목명 모두 지원합니다. 사용자가 종목명만 말하고 심볼을 모를 때, 또는 다른 도구에서 심볼을 찾지 못했을 때 이 도구로 먼저 심볼을 확인하세요.",
+  stockSearchSchema.shape,
+  searchStock
 );
 
 const transport = new StdioServerTransport();
