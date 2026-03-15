@@ -1,10 +1,10 @@
 {
-  "name": "stock-mcp",
+  "name": "stock-news-mcp",
   "version": "1.0.0",
   "description": "MCP server for stock news and information",
   "type": "module",
   "bin": {
-    "stock-mcp": "dist/index.js"
+    "stock-news-mcp": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",

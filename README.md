@@ -1,4 +1,4 @@
-# stock-mcp
+# stock-news-mcp
 
 주식 뉴스와 종목 정보를 조회하는 MCP (Model Context Protocol) 서버입니다.
 
@@ -19,7 +19,7 @@
 ## 설치 & 실행
 
 ```bash
-npx stock-mcp
+npx stock-news-mcp
 ```
 
 ## Claude Desktop 설정
@@ -29,9 +29,9 @@ npx stock-mcp
 ```json
 {
   "mcpServers": {
-    "stock-mcp": {
+    "stock-news-mcp": {
       "command": "npx",
-      "args": ["stock-mcp"]
+      "args": ["stock-news-mcp"]
     }
   }
 }
@@ -44,9 +44,9 @@ npx stock-mcp
 ```json
 {
   "mcpServers": {
-    "stock-mcp": {
+    "stock-news-mcp": {
       "command": "npx",
-      "args": ["stock-mcp"],
+      "args": ["stock-news-mcp"],
       "env": {
         "NAVER_CLIENT_ID": "발급받은_ID",
         "NAVER_CLIENT_SECRET": "발급받은_SECRET"
@@ -59,7 +59,7 @@ npx stock-mcp
 ## Claude Code 설정
 
 ```bash
-claude mcp add stock-mcp -- npx stock-mcp
+claude mcp add stock-news-mcp -- npx stock-news-mcp
 ```
 
 ## 도구 상세
