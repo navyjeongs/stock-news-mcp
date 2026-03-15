@@ -22,13 +22,19 @@ export async function fetchNews(
   locale: GoogleNewsLocale,
   count: number
 ): Promise<NewsItem[]> {
-  // when:1d = 최근 1일 뉴스만 필터링
-  const encodedQuery = encodeURIComponent(`${query} when:1d`);
-  const url = `https://news.google.com/rss/search?q=${encodedQuery}&hl=${locale.hl}&gl=${locale.gl}&ceid=${locale.ceid}`;
-
   const cappedCount = Math.min(Math.max(count, 1), 20);
 
-  const feed = await parser.parseURL(url);
+  // 3일 먼저 시도, 결과 부족하면 7일로 확장
+  const encodedQuery3d = encodeURIComponent(`${query} when:3d`);
+  const url3d = `https://news.google.com/rss/search?q=${encodedQuery3d}&hl=${locale.hl}&gl=${locale.gl}&ceid=${locale.ceid}`;
+
+  let feed = await parser.parseURL(url3d);
+
+  if (feed.items.length < cappedCount) {
+    const encodedQuery7d = encodeURIComponent(`${query} when:7d`);
+    const url7d = `https://news.google.com/rss/search?q=${encodedQuery7d}&hl=${locale.hl}&gl=${locale.gl}&ceid=${locale.ceid}`;
+    feed = await parser.parseURL(url7d);
+  }
 
   return feed.items.slice(0, cappedCount).map((item) => ({
     title: item.title ?? "",
