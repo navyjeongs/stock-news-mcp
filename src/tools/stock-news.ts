@@ -1,5 +1,7 @@
 import { z } from "zod";
-import yahooFinance from "yahoo-finance2";
+import YahooFinance from "yahoo-finance2";
+
+const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 import { fetchNews } from "../utils/rss.js";
 import { isNaverAvailable, fetchNaverNews } from "../utils/naver.js";
 import { applySentiment } from "../utils/sentiment.js";

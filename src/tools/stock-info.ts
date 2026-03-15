@@ -1,5 +1,7 @@
 import { z } from "zod";
-import yahooFinance from "yahoo-finance2";
+import YahooFinance from "yahoo-finance2";
+
+const yahooFinance = new YahooFinance({ suppressNotices: ["yahooSurvey"] });
 
 export const stockInfoSchema = z.object({
   symbol: z.string().describe("티커 심볼 (예: AAPL, 005930.KS)"),

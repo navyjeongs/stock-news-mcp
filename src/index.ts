@@ -7,6 +7,10 @@ import { usNewsSchema, getUsStockNews } from "./tools/us-news.js";
 import { stockInfoSchema, getStockInfo } from "./tools/stock-info.js";
 import { stockNewsSchema, getStockNews } from "./tools/stock-news.js";
 import { marketNewsSchema, getMarketNews } from "./tools/market-news.js";
+import {
+  stockAnalysisSchema,
+  getStockAnalysis,
+} from "./tools/stock-analysis.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -46,6 +50,13 @@ server.tool(
   "글로벌 시장 이슈 뉴스를 가져옵니다 (전쟁, 금리, 유가, 환율, 지정학 등)",
   marketNewsSchema.shape,
   getMarketNews
+);
+
+server.tool(
+  "get_stock_analysis",
+  "종목의 기술적 지표(SMA, RSI, MACD, 볼린저밴드), 펀더멘털(PER, PBR, ROE 등), 애널리스트 의견을 종합 분석합니다. 매수/매도 판단에 활용하세요.",
+  stockAnalysisSchema.shape,
+  getStockAnalysis
 );
 
 const transport = new StdioServerTransport();
