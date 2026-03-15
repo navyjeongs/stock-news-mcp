@@ -22,7 +22,8 @@ export async function fetchNews(
   locale: GoogleNewsLocale,
   count: number
 ): Promise<NewsItem[]> {
-  const encodedQuery = encodeURIComponent(query);
+  // when:1d = 최근 1일 뉴스만 필터링
+  const encodedQuery = encodeURIComponent(`${query} when:1d`);
   const url = `https://news.google.com/rss/search?q=${encodedQuery}&hl=${locale.hl}&gl=${locale.gl}&ceid=${locale.ceid}`;
 
   const cappedCount = Math.min(Math.max(count, 1), 20);
