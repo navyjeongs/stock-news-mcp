@@ -1,6 +1,7 @@
 import { z } from "zod";
 import yahooFinance from "yahoo-finance2";
 import { fetchNews } from "../utils/rss.js";
+import { isNaverAvailable, fetchNaverNews } from "../utils/naver.js";
 import { applySentiment } from "../utils/sentiment.js";
 
 export const stockNewsSchema = z.object({
@@ -30,7 +31,9 @@ export async function getStockNews(args: z.infer<typeof stockNewsSchema>) {
       : { hl: "en", gl: "US", ceid: "US:en" };
 
     const query = applySentiment(name, args.sentiment, lang);
-    const news = await fetchNews(query, locale, count);
+    const news = isKorean && isNaverAvailable()
+      ? await fetchNaverNews(query, count)
+      : await fetchNews(query, locale, count);
 
     return {
       content: [

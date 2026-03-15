@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { fetchNews } from "../utils/rss.js";
+import { isNaverAvailable, fetchNaverNews } from "../utils/naver.js";
 import { applySentiment } from "../utils/sentiment.js";
 
 export const koreanNewsSchema = z.object({
@@ -24,8 +25,12 @@ export async function getKoreanStockNews(
   const count = args.count ?? 5;
 
   try {
-    const news = await fetchNews(query, { hl: "ko", gl: "KR", ceid: "KR:ko" }, count);
-    return { content: [{ type: "text" as const, text: JSON.stringify(news, null, 2) }] };
+    const news = isNaverAvailable()
+      ? await fetchNaverNews(query, count)
+      : await fetchNews(query, { hl: "ko", gl: "KR", ceid: "KR:ko" }, count);
+
+    const source = isNaverAvailable() ? "naver" : "google";
+    return { content: [{ type: "text" as const, text: JSON.stringify({ source, news }, null, 2) }] };
   } catch {
     return { content: [{ type: "text" as const, text: "Failed to fetch news" }], isError: true };
   }
