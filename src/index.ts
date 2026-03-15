@@ -5,6 +5,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { koreanNewsSchema, getKoreanStockNews } from "./tools/korean-news.js";
 import { usNewsSchema, getUsStockNews } from "./tools/us-news.js";
 import { stockInfoSchema, getStockInfo } from "./tools/stock-info.js";
+import { stockNewsSchema, getStockNews } from "./tools/stock-news.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -30,6 +31,13 @@ server.tool(
   "특정 종목의 주식 정보를 조회합니다 (현재가, 등락률, 시가총액 등)",
   stockInfoSchema.shape,
   getStockInfo
+);
+
+server.tool(
+  "get_stock_news",
+  "특정 종목에 대한 최신 뉴스를 검색합니다",
+  stockNewsSchema.shape,
+  getStockNews
 );
 
 const transport = new StdioServerTransport();
