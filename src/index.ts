@@ -6,6 +6,7 @@ import { koreanNewsSchema, getKoreanStockNews } from "./tools/korean-news.js";
 import { usNewsSchema, getUsStockNews } from "./tools/us-news.js";
 import { stockInfoSchema, getStockInfo } from "./tools/stock-info.js";
 import { stockNewsSchema, getStockNews } from "./tools/stock-news.js";
+import { marketNewsSchema, getMarketNews } from "./tools/market-news.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -38,6 +39,13 @@ server.tool(
   "특정 종목에 대한 최신 뉴스를 검색합니다",
   stockNewsSchema.shape,
   getStockNews
+);
+
+server.tool(
+  "get_market_news",
+  "글로벌 시장 이슈 뉴스를 가져옵니다 (전쟁, 금리, 유가, 환율, 지정학 등)",
+  marketNewsSchema.shape,
+  getMarketNews
 );
 
 const transport = new StdioServerTransport();
