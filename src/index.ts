@@ -19,42 +19,42 @@ const server = new McpServer({
 
 server.tool(
   "get_korean_stock_news",
-  "국내 주식 관련 뉴스를 가져옵니다",
+  "국내 주식 시장 뉴스를 가져옵니다. 한국 주식 시장 동향, 코스피/코스닥 관련 질문에 사용하세요.",
   koreanNewsSchema.shape,
   getKoreanStockNews
 );
 
 server.tool(
   "get_us_stock_news",
-  "Get US stock market news",
+  "미국 주식 시장 뉴스를 가져옵니다. 나스닥, S&P500, 미국 증시 관련 질문에 사용하세요.",
   usNewsSchema.shape,
   getUsStockNews
 );
 
 server.tool(
   "get_stock_info",
-  "특정 종목의 주식 정보를 조회합니다 (현재가, 등락률, 시가총액 등)",
+  "특정 종목의 현재 주가, 등락률, 시가총액 등 기본 정보를 조회합니다. 주가가 얼마인지, 오늘 올랐는지 등의 질문에 사용하세요.",
   stockInfoSchema.shape,
   getStockInfo
 );
 
 server.tool(
   "get_stock_news",
-  "특정 종목에 대한 최신 뉴스를 검색합니다",
+  "특정 종목에 대한 최신 뉴스를 검색합니다. 종목의 최근 이슈나 호재/악재를 파악할 때 사용하세요.",
   stockNewsSchema.shape,
   getStockNews
 );
 
 server.tool(
   "get_market_news",
-  "글로벌 시장 이슈 뉴스를 가져옵니다 (전쟁, 금리, 유가, 환율, 지정학 등)",
+  "글로벌 시장 이슈 뉴스를 가져옵니다 (전쟁, 금리, 유가, 환율, 지정학 등). 세계 경제 흐름이나 매크로 이슈를 파악할 때 사용하세요.",
   marketNewsSchema.shape,
   getMarketNews
 );
 
 server.tool(
   "get_stock_analysis",
-  "종목의 기술적 지표(SMA, RSI, MACD, 볼린저밴드), 펀더멘털(PER, PBR, ROE 등), 애널리스트 의견을 종합 분석합니다. 매수/매도 판단에 활용하세요.",
+  "종목의 매수/매도 판단을 위한 종합 분석 도구입니다. 기술적 지표(SMA, RSI, MACD, 볼린저밴드), 펀더멘털(PER, PBR, ROE, 부채비율 등), 애널리스트 의견(목표가, 추천)을 한번에 반환합니다. 사용자가 '~~ 살까?', '매수해도 될까?', '지금 들어가도 될까?', '전망이 어때?' 등 투자 의견을 물으면 반드시 이 도구를 사용하세요.",
   stockAnalysisSchema.shape,
   getStockAnalysis
 );
