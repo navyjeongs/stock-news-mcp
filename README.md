@@ -1,5 +1,8 @@
 # stock-news-mcp
 
+[![npm version](https://img.shields.io/npm/v/stock-news-mcp.svg)](https://www.npmjs.com/package/stock-news-mcp)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 주식 뉴스와 종목 정보를 조회하는 MCP (Model Context Protocol) 서버입니다.
 
 ## 기능
@@ -19,10 +22,14 @@
 ## 설치 & 실행
 
 ```bash
+npm install -g stock-news-mcp
+# 또는
 npx stock-news-mcp
 ```
 
-## Claude Desktop 설정
+## MCP 클라이언트 설정
+
+### Claude Desktop
 
 `claude_desktop_config.json`에 추가:
 
@@ -31,7 +38,47 @@ npx stock-news-mcp
   "mcpServers": {
     "stock-news-mcp": {
       "command": "npx",
-      "args": ["stock-news-mcp"]
+      "args": ["-y", "stock-news-mcp"]
+    }
+  }
+}
+```
+
+> 설정 파일 위치:
+> - macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
+> - Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+
+### Claude Code
+
+```bash
+claude mcp add stock-news-mcp -- npx -y stock-news-mcp
+```
+
+### Cursor
+
+Cursor Settings → MCP → `Add new global MCP server`에서 아래 설정 추가:
+
+```json
+{
+  "mcpServers": {
+    "stock-news-mcp": {
+      "command": "npx",
+      "args": ["-y", "stock-news-mcp"]
+    }
+  }
+}
+```
+
+### Windsurf
+
+Windsurf Settings → Cascade → MCP → `Add Server` → `Add custom server`에서 아래 설정 추가:
+
+```json
+{
+  "mcpServers": {
+    "stock-news-mcp": {
+      "command": "npx",
+      "args": ["-y", "stock-news-mcp"]
     }
   }
 }
@@ -46,7 +93,7 @@ npx stock-news-mcp
   "mcpServers": {
     "stock-news-mcp": {
       "command": "npx",
-      "args": ["stock-news-mcp"],
+      "args": ["-y", "stock-news-mcp"],
       "env": {
         "NAVER_CLIENT_ID": "발급받은_ID",
         "NAVER_CLIENT_SECRET": "발급받은_SECRET"
@@ -54,12 +101,6 @@ npx stock-news-mcp
     }
   }
 }
-```
-
-## Claude Code 설정
-
-```bash
-claude mcp add stock-news-mcp -- npx stock-news-mcp
 ```
 
 ## 도구 상세
