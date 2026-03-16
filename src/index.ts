@@ -15,6 +15,10 @@ import {
   stockSearchSchema,
   searchStock,
 } from "./tools/stock-search.js";
+import {
+  marketSummarySchema,
+  getMarketSummary,
+} from "./tools/market-summary.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -68,6 +72,13 @@ server.tool(
   "종목명으로 티커 심볼을 검색합니다. 한국어 종목명(삼성전자, SK하이닉스, 네이버 등)이나 영어 종목명 모두 지원합니다. 사용자가 종목명만 말하고 심볼을 모를 때, 또는 다른 도구에서 심볼을 찾지 못했을 때 이 도구로 먼저 심볼을 확인하세요.",
   stockSearchSchema.shape,
   searchStock
+);
+
+server.tool(
+  "get_market_summary",
+  "증시 요약 도구입니다. 현재 시간 기준으로 최근 12시간 내 주요 증시를 자동 판단하여 요약합니다. 오전이면 밤사이 미국장을, 오후~새벽이면 한국장을 요약합니다. '증시 요약', '시장 요약', '오늘 장 어땠어?', '어제 장 어땠어?', '미장 어땠어?', '국장 어땠어?' 등의 질문에 사용하세요. 주요 지수(KOSPI/KOSDAQ 또는 S&P500/NASDAQ/DOW), 시장 뉴스, 글로벌 매크로 뉴스를 한번에 반환합니다.",
+  marketSummarySchema.shape,
+  getMarketSummary
 );
 
 const transport = new StdioServerTransport();
