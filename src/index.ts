@@ -31,6 +31,10 @@ import {
   portfolioAnalysisSchema,
   analyzePortfolio,
 } from "./tools/portfolio-analysis.js";
+import {
+  exchangeRateSchema,
+  getExchangeRate,
+} from "./tools/exchange-rate.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -91,6 +95,13 @@ server.tool(
   "증시 요약 도구입니다. 현재 시간 기준으로 최근 12시간 내 주요 증시를 자동 판단하여 요약합니다. 오전이면 밤사이 미국장을, 오후~새벽이면 한국장을 요약합니다. '증시 요약', '시장 요약', '오늘 장 어땠어?', '어제 장 어땠어?', '미장 어땠어?', '국장 어땠어?' 등의 질문에 사용하세요. 주요 지수(KOSPI/KOSDAQ 또는 S&P500/NASDAQ/DOW), 시장 뉴스, 글로벌 매크로 뉴스를 한번에 반환합니다.",
   marketSummarySchema.shape,
   getMarketSummary
+);
+
+server.tool(
+  "get_exchange_rate",
+  "주요 환율 정보를 조회합니다. USD/KRW, EUR/KRW, JPY/KRW, CNY/KRW, GBP/KRW, EUR/USD, USD/JPY, 달러인덱스(DXY) 등을 지원합니다. '환율 얼마야?', '달러 얼마야?', '원달러 환율', '엔화 환율' 등의 질문에 사용하세요. 특정 환율 쌍을 지정하거나, 미지정 시 주요 환율 전체를 반환합니다.",
+  exchangeRateSchema.shape,
+  getExchangeRate
 );
 
 server.tool(
