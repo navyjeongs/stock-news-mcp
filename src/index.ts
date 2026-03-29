@@ -27,6 +27,10 @@ import {
   sectorPerformanceSchema,
   getSectorPerformance,
 } from "./tools/sector-performance.js";
+import {
+  portfolioAnalysisSchema,
+  analyzePortfolio,
+} from "./tools/portfolio-analysis.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -87,6 +91,13 @@ server.tool(
   "증시 요약 도구입니다. 현재 시간 기준으로 최근 12시간 내 주요 증시를 자동 판단하여 요약합니다. 오전이면 밤사이 미국장을, 오후~새벽이면 한국장을 요약합니다. '증시 요약', '시장 요약', '오늘 장 어땠어?', '어제 장 어땠어?', '미장 어땠어?', '국장 어땠어?' 등의 질문에 사용하세요. 주요 지수(KOSPI/KOSDAQ 또는 S&P500/NASDAQ/DOW), 시장 뉴스, 글로벌 매크로 뉴스를 한번에 반환합니다.",
   marketSummarySchema.shape,
   getMarketSummary
+);
+
+server.tool(
+  "analyze_portfolio",
+  "보유 종목 포트폴리오를 종합 분석합니다. 종목별 수익률, 포트폴리오 총 수익률, 섹터별 비중, 집중도 경고를 제공합니다. '내 포트폴리오 분석해줘', '수익률 계산해줘' 등의 요청에 사용하세요. holdings 배열에 symbol(티커), quantity(수량), avgPrice(평균매수가)를 전달합니다.",
+  portfolioAnalysisSchema.shape,
+  analyzePortfolio
 );
 
 server.tool(
