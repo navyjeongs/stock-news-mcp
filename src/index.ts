@@ -35,6 +35,10 @@ import {
   exchangeRateSchema,
   getExchangeRate,
 } from "./tools/exchange-rate.js";
+import {
+  stockScreenerSchema,
+  screenStocks,
+} from "./tools/stock-screener.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -123,6 +127,13 @@ server.tool(
   "여러 종목을 나란히 비교합니다. 주가, PER, PBR, ROE, 시가총액, 배당수익률, 부채비율, 이익률 등 핵심 지표를 한눈에 비교할 수 있습니다. '삼성전자 vs SK하이닉스', 'AAPL이랑 MSFT 비교해줘', '반도체주 비교' 등의 요청에 사용하세요.",
   compareStocksSchema.shape,
   compareStocks
+);
+
+server.tool(
+  "screen_stocks",
+  "조건 기반 종목 스크리너입니다. PER, ROE, 배당수익률, 부채비율, 시가총액 등의 조건으로 종목을 필터링합니다. '저PER 고ROE 종목 찾아줘', 'PER 15 이하 종목', '배당주 추천', '가치주 스크리닝', '성장주 찾기' 등의 요청에 사용하세요. 한국/미국 시장 모두 지원합니다.",
+  stockScreenerSchema.shape,
+  screenStocks
 );
 
 const transport = new StdioServerTransport();
