@@ -23,6 +23,10 @@ import {
   compareStocksSchema,
   compareStocks,
 } from "./tools/compare-stocks.js";
+import {
+  sectorPerformanceSchema,
+  getSectorPerformance,
+} from "./tools/sector-performance.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -83,6 +87,13 @@ server.tool(
   "증시 요약 도구입니다. 현재 시간 기준으로 최근 12시간 내 주요 증시를 자동 판단하여 요약합니다. 오전이면 밤사이 미국장을, 오후~새벽이면 한국장을 요약합니다. '증시 요약', '시장 요약', '오늘 장 어땠어?', '어제 장 어땠어?', '미장 어땠어?', '국장 어땠어?' 등의 질문에 사용하세요. 주요 지수(KOSPI/KOSDAQ 또는 S&P500/NASDAQ/DOW), 시장 뉴스, 글로벌 매크로 뉴스를 한번에 반환합니다.",
   marketSummarySchema.shape,
   getMarketSummary
+);
+
+server.tool(
+  "get_sector_performance",
+  "업종/섹터별 대표 종목 성과를 한눈에 보여줍니다. 한국(반도체, 2차전지, 바이오, 자동차, 금융, 방산, 조선 등)과 미국(빅테크, 반도체, 전기차, 금융, 헬스케어, 에너지 등) 시장을 지원합니다. '업종별 성과', '섹터 분석', '어떤 업종이 강세야?', '오늘 섹터별 등락률' 등의 질문에 사용하세요.",
+  sectorPerformanceSchema.shape,
+  getSectorPerformance
 );
 
 server.tool(
