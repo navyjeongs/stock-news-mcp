@@ -19,6 +19,10 @@ import {
   marketSummarySchema,
   getMarketSummary,
 } from "./tools/market-summary.js";
+import {
+  compareStocksSchema,
+  compareStocks,
+} from "./tools/compare-stocks.js";
 
 const server = new McpServer({
   name: "stock-mcp",
@@ -79,6 +83,13 @@ server.tool(
   "증시 요약 도구입니다. 현재 시간 기준으로 최근 12시간 내 주요 증시를 자동 판단하여 요약합니다. 오전이면 밤사이 미국장을, 오후~새벽이면 한국장을 요약합니다. '증시 요약', '시장 요약', '오늘 장 어땠어?', '어제 장 어땠어?', '미장 어땠어?', '국장 어땠어?' 등의 질문에 사용하세요. 주요 지수(KOSPI/KOSDAQ 또는 S&P500/NASDAQ/DOW), 시장 뉴스, 글로벌 매크로 뉴스를 한번에 반환합니다.",
   marketSummarySchema.shape,
   getMarketSummary
+);
+
+server.tool(
+  "compare_stocks",
+  "여러 종목을 나란히 비교합니다. 주가, PER, PBR, ROE, 시가총액, 배당수익률, 부채비율, 이익률 등 핵심 지표를 한눈에 비교할 수 있습니다. '삼성전자 vs SK하이닉스', 'AAPL이랑 MSFT 비교해줘', '반도체주 비교' 등의 요청에 사용하세요.",
+  compareStocksSchema.shape,
+  compareStocks
 );
 
 const transport = new StdioServerTransport();
